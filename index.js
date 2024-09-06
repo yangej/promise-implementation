@@ -115,14 +115,34 @@ class MyPromise {
 
   static resolve(value) {
     return new MyPromise((resolve) => {
-        resolve(value);
+      resolve(value);
     });
   }
 
   static reject(value) {
     return new MyPromise((_resolve, reject) => {
-        reject(value);
-    })
+      reject(value);
+    });
+  }
+
+  static all(promises) {
+    let resolvedCount = 0;
+    const result = [];
+
+    return new MyPromise((resolve, reject) => {
+      promises.forEach((promise, index) => {
+        promise
+          .then((value) => {
+            result[index] = value;
+            resolvedCount++;
+
+            if (resolvedCount === promises.length) {
+              resolve(result);
+            }
+          })
+          .catch(reject);
+      });
+    });
   }
 }
 
