@@ -125,6 +125,16 @@ class MyPromise {
     });
   }
 
+  static try(action) {
+    return new MyPromise((resolve, reject) => {
+      try {
+        resolve(action());
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   static allSettled(promises) {
     const result = [];
 
