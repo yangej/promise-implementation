@@ -81,6 +81,21 @@ class MyPromise {
   catch(rejectCallback) {
     return this.then(undefined, rejectCallback);
   }
+
+  finally(callback) {
+    return this.then(
+      (value) => {
+        callback();
+
+        return value;
+      },
+      (value) => {
+        callback();
+
+        throw value;
+      }
+    );
+  }
 }
 
 module.exports = MyPromise;
