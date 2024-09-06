@@ -95,6 +95,12 @@ describe("static methods", () => {
     );
   });
 
+  it("try", () => {
+    return MyPromise.try(syncThrowError).catch((v) =>
+      expect(v).toEqual(DEFAULT_VALUE)
+    );
+  });
+
   describe("all", () => {
     it("with success", () => {
       return MyPromise.all([promise({ value: 1 }), promise({ value: 2 })]).then(
@@ -150,6 +156,10 @@ describe("static methods", () => {
     });
   });
 });
+
+function syncThrowError() {
+  throw DEFAULT_VALUE;
+}
 
 function promise({ value = DEFAULT_VALUE, fail = false } = {}) {
   return new MyPromise((resolve, reject) => {
