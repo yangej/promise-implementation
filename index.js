@@ -171,6 +171,24 @@ class MyPromise {
       });
     });
   }
+
+  static any(promises) {
+    let rejectedCount = 0;
+    const reasons = [];
+
+    return new MyPromise((resolve, reject) => {
+      promises.forEach((promise, index) => {
+        promise.then(resolve).catch((value) => {
+          reasons[index] = value;
+          rejectedCount++;
+
+          if (rejectedCount === promises.length) {
+            reject(reasons);
+          }
+        });
+      });
+    });
+  }
 }
 
 module.exports = MyPromise;
