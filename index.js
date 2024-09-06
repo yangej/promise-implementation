@@ -77,6 +77,10 @@ class MyPromise {
       });
     });
   }
+
+  catch(rejectCallback) {
+    return this.then(undefined, rejectCallback);
+  }
 }
 
 module.exports = MyPromise;
