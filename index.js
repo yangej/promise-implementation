@@ -125,6 +125,24 @@ class MyPromise {
     });
   }
 
+  static allSettled(promises) {
+    const result = [];
+
+    return new MyPromise((resolve) => {
+      promises.forEach((promise, index) => {
+        promise
+          .then((value) => {
+            result[index] = { status: STATE.FULFILLED, value };
+          })
+          .catch((value) => {
+            result[index] = { status: STATE.REJECTED, reason: value };
+          }).finally(() => {
+            resolve(result);
+          });
+      });
+    });
+  }
+
   static all(promises) {
     let resolvedCount = 0;
     const result = [];
