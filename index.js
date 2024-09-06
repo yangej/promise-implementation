@@ -118,6 +118,12 @@ class MyPromise {
         resolve(value);
     });
   }
+
+  static reject(value) {
+    return new MyPromise((_resolve, reject) => {
+        reject(value);
+    })
+  }
 }
 
 module.exports = MyPromise;
