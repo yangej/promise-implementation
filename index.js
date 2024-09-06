@@ -23,6 +23,7 @@ class MyPromise {
   #resolve(value) {
     // queue the task, execute after the sync method `then` is called
     queueMicrotask(() => {
+      // avoid resolve being called more than once
       if (this.#state !== STATE.PENDING) return;
 
       // not to wrap value into a promise, if the value is a thenable / promise.
@@ -43,6 +44,7 @@ class MyPromise {
   #reject(value) {
     // queue the task, execute after the sync method `then` is called
     queueMicrotask(() => {
+      // avoid reject being called more than once
       if (this.#state !== STATE.PENDING) return;
 
       // not to wrap value into a promise, if the value is a thenable / promise.
