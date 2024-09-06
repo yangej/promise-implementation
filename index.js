@@ -112,6 +112,12 @@ class MyPromise {
       }
     );
   }
+
+  static resolve(value) {
+    return new MyPromise((resolve) => {
+        resolve(value);
+    });
+  }
 }
 
 module.exports = MyPromise;
