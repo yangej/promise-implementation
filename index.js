@@ -136,7 +136,8 @@ class MyPromise {
           })
           .catch((value) => {
             result[index] = { status: STATE.REJECTED, reason: value };
-          }).finally(() => {
+          })
+          .finally(() => {
             resolve(result);
           });
       });
@@ -159,6 +160,14 @@ class MyPromise {
             }
           })
           .catch(reject);
+      });
+    });
+  }
+
+  static race(promises) {
+    return new MyPromise((resolve, reject) => {
+      promises.forEach((promise) => {
+        promise.then(resolve).catch(reject);
       });
     });
   }
