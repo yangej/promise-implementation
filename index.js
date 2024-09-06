@@ -19,12 +19,16 @@ class MyPromise {
   }
 
   #resolve(value) {
+    if (this.#state !== STATE.PENDING) return;
+
     this.#value = value;
     this.#state = STATE.FULFILLED;
     this.#resolveCallbacks.forEach((callback) => callback(this.#value));
   }
 
   #reject(value) {
+    if (this.#state !== STATE.PENDING) return;
+    
     this.#value = value;
     this.#state = STATE.REJECTED;
     this.#rejectCallbacks.forEach((callback) => callback(this.#value));
