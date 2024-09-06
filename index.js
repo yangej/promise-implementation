@@ -25,6 +25,13 @@ class MyPromise {
     queueMicrotask(() => {
       if (this.#state !== STATE.PENDING) return;
 
+      // not to wrap value into a promise, if the value is a thenable / promise.
+      if (value instanceof MyPromise || typeof value?.then === "function") {
+        value.then(this.#boundResolve, this.#boundReject);
+
+        return;
+      }
+
       this.#value = value;
       this.#state = STATE.FULFILLED;
       this.#resolveCallbacks.forEach((callback) => {
@@ -37,6 +44,13 @@ class MyPromise {
     // queue the task, execute after the sync method `then` is called
     queueMicrotask(() => {
       if (this.#state !== STATE.PENDING) return;
+
+      // not to wrap value into a promise, if the value is a thenable / promise.
+      if (value instanceof MyPromise || typeof value?.then === "function") {
+        value.then(this.#boundResolve, this.#boundReject);
+
+        return;
+      }
 
       this.#value = value;
       this.#state = STATE.REJECTED;
