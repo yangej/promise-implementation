@@ -83,17 +83,19 @@ describe("finally", () => {
 });
 
 describe("static methods", () => {
-  it("resolve non-promise value", () => {
-    return MyPromise.resolve(DEFAULT_VALUE).then((v) =>
-      expect(v).toEqual(DEFAULT_VALUE)
-    );
-  });
-
-  it("resolve promise value", () => {
-    const p = promise({ value: 1 });
-
-    expect(MyPromise.resolve(p)).toEqual(p);
-  });
+  describe("resolve", () => {
+    it("non-promise value", () => {
+      return MyPromise.resolve(DEFAULT_VALUE).then((v) =>
+        expect(v).toEqual(DEFAULT_VALUE)
+      );
+    });
+  
+    it("promise value", () => {
+      const p = promise({ value: 1 });
+  
+      expect(MyPromise.resolve(p)).toEqual(p);
+    });
+  })
 
   it("reject", () => {
     return MyPromise.reject(DEFAULT_VALUE).catch((v) =>
@@ -101,17 +103,19 @@ describe("static methods", () => {
     );
   });
 
-  it("try with sync-thrown error", () => {
-    return MyPromise.try(throwError).catch((v) =>
-      expect(v).toEqual(DEFAULT_VALUE)
-    );
-  });
-
-  it("try with async-thrown error", () => {
-    return MyPromise.try(() => MyPromise.reject(throwError())).catch((v) =>
-      expect(v).toEqual(DEFAULT_VALUE)
-    );
-  });
+  describe("try", () => {
+    it("sync-thrown error", () => {
+      return MyPromise.try(throwError).catch((v) =>
+        expect(v).toEqual(DEFAULT_VALUE)
+      );
+    });
+  
+    it("async-thrown error", () => {
+      return MyPromise.try(() => MyPromise.reject(throwError())).catch((v) =>
+        expect(v).toEqual(DEFAULT_VALUE)
+      );
+    });
+  })
 
   describe("all", () => {
     it("with success", () => {
