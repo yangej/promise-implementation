@@ -101,8 +101,14 @@ describe("static methods", () => {
     );
   });
 
-  it("try", () => {
-    return MyPromise.try(syncThrowError).catch((v) =>
+  it("try with sync-thrown error", () => {
+    return MyPromise.try(throwError).catch((v) =>
+      expect(v).toEqual(DEFAULT_VALUE)
+    );
+  });
+
+  it("try with async-thrown error", () => {
+    return MyPromise.try(() => MyPromise.reject(throwError())).catch((v) =>
       expect(v).toEqual(DEFAULT_VALUE)
     );
   });
@@ -163,7 +169,7 @@ describe("static methods", () => {
   });
 });
 
-function syncThrowError() {
+function throwError() {
   throw DEFAULT_VALUE;
 }
 
