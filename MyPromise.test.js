@@ -83,10 +83,16 @@ describe("finally", () => {
 });
 
 describe("static methods", () => {
-  it("resolve", () => {
+  it("resolve non-promise value", () => {
     return MyPromise.resolve(DEFAULT_VALUE).then((v) =>
       expect(v).toEqual(DEFAULT_VALUE)
     );
+  });
+
+  it("resolve promise value", () => {
+    const p = promise({ value: 1 });
+
+    expect(MyPromise.resolve(p)).toEqual(p);
   });
 
   it("reject", () => {
