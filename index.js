@@ -16,7 +16,7 @@ class MyPromise {
     try {
       callback(this.#boundResolve, this.#boundReject);
     } catch (error) {
-      this.#reject(error);
+      this.#boundReject(error);
     }
   }
 
