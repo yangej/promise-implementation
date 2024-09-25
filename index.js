@@ -114,12 +114,18 @@ class MyPromise {
   }
 
   static resolve(value) {
+    // Promise.resolve() reuses existing Promise instances
+    if (value instanceof MyPromise || typeof value?.then === "function") {
+      return value;
+    }
+
     return new MyPromise((resolve) => {
       resolve(value);
     });
   }
 
   static reject(value) {
+    // Promise.reject method does not reuse existing Promise instances
     return new MyPromise((_resolve, reject) => {
       reject(value);
     });
