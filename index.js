@@ -199,7 +199,7 @@ class MyPromise {
           rejectedCount++;
 
           if (rejectedCount === promises.length) {
-            reject(reasons);
+            reject(new AggregateError(reasons, 'All promises were rejected'));
           }
         });
       });

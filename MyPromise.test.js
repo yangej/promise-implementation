@@ -89,13 +89,13 @@ describe("static methods", () => {
         expect(v).toEqual(DEFAULT_VALUE)
       );
     });
-  
+
     it("promise value", () => {
       const p = promise({ value: 1 });
-  
+
       expect(MyPromise.resolve(p)).toEqual(p);
     });
-  })
+  });
 
   it("reject", () => {
     return MyPromise.reject(DEFAULT_VALUE).catch((v) =>
@@ -109,13 +109,13 @@ describe("static methods", () => {
         expect(v).toEqual(DEFAULT_VALUE)
       );
     });
-  
+
     it("async-thrown error", () => {
       return MyPromise.try(() => MyPromise.reject(throwError())).catch((v) =>
         expect(v).toEqual(DEFAULT_VALUE)
       );
     });
-  })
+  });
 
   describe("all", () => {
     it("with success", () => {
@@ -168,7 +168,10 @@ describe("static methods", () => {
       return MyPromise.any([
         promise({ fail: true, value: 1 }),
         promise({ value: 2 }),
-      ]).catch((e) => expect(e.errors).toEqual([1, 2]));
+      ]).catch((e) => {
+        expect(e.errors).toEqual([1, 2]);
+        expect(e.name).toEqual("AggregateError");
+      });
     });
   });
 });
