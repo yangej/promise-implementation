@@ -143,6 +143,7 @@ class MyPromise {
 
   static allSettled(promises) {
     const result = [];
+    let completedCount = 0;
 
     return new MyPromise((resolve) => {
       promises.forEach((promise, index) => {
@@ -154,7 +155,11 @@ class MyPromise {
             result[index] = { status: STATE.REJECTED, reason: value };
           })
           .finally(() => {
-            resolve(result);
+            completedCount++
+
+            if (completedCount === promises.length) {
+              resolve(result);
+            }
           });
       });
     });
